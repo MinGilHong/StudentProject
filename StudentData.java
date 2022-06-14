@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class StudentData implements Comparable<Object>, Serializable{
-	//°ú¸ñ¼ö
+	//ê³¼ëª©ìˆ˜
 	public static final int SUBJECT_COUNT=3;
-	//¸â¹öº¯¼ö
+	//ë©¤ë²„ë³€ìˆ˜
 	private String name;
 	private String id;
 	private String hp;
@@ -16,7 +16,7 @@ public class StudentData implements Comparable<Object>, Serializable{
 	private int total;
 	private double avr;
 	private String grade;
-	//»ı¼ºÀÚ(µğÆúÆ®»ı¼ºÀÚ,¸Å°³º¯¼ö»ı¼ºÀÚ)
+	//ìƒì„±ì(ë””í´íŠ¸ìƒì„±ì,ë§¤ê°œë³€ìˆ˜ìƒì„±ì)
 	public StudentData(String name,  String id, String hp, int kor, int math, int eng, int total, Double avr, String grade) {
 		super();
 		this.name = name;
@@ -29,16 +29,16 @@ public class StudentData implements Comparable<Object>, Serializable{
 		this.avr = avr;
 		this.grade = grade;
 	}
-	//ÇÕ°è°è»ê ÇÔ¼ö
+	//í•©ê³„ê³„ì‚° í•¨ìˆ˜
 	public void totalSum(){
 		this.total=this.kor+this.math+this.eng;
 	}
 	
-	//Æò±Õ°è»ê ÇÔ¼ö
+	//í‰ê· ê³„ì‚° í•¨ìˆ˜
 	public void totalAvr(){
 		this.avr=this.total/SUBJECT_COUNT;
 	}
-	//µî±Ş°è»ê ÇÔ¼ö
+	//ë“±ê¸‰ê³„ì‚° í•¨ìˆ˜
 	public void calGrade() {
 		if(this.avr>=90.0) {
 			this.grade="A";
@@ -52,7 +52,7 @@ public class StudentData implements Comparable<Object>, Serializable{
 			this.grade="F";
 		}
 	}
-	//¿À¹ö¶óÀÌµå : hashcode(hp), equals(hp), compareTo(avr), toString
+	//ì˜¤ë²„ë¼ì´ë“œ : hashcode(hp), equals(hp), compareTo(avr), toString
 	@Override
 	public int hashCode() {
 		return Objects.hash(hp);
@@ -69,7 +69,7 @@ public class StudentData implements Comparable<Object>, Serializable{
 	@Override
 	public int compareTo(Object o) {
 		if(!(o instanceof StudentData)) {
-			throw new IllegalArgumentException("ºñ±³°¡ ¾ÈµÇ´Â °´Ã¼¸¦ º¸³Â¾î¿ä");
+			throw new IllegalArgumentException("ë¹„êµê°€ ì•ˆë˜ëŠ” ê°ì²´ë¥¼ ë³´ëƒˆì–´ìš”");
 		}
 		StudentData studentData=(StudentData)o;
 		if(this.avr<studentData.avr) {
