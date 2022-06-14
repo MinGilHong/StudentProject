@@ -5,3 +5,4 @@
 # 2. 프로젝트 정보
 
 - java eclipse와 mySql workbench 설치를 권장한다.
+- eclipse와 mysql을 연결할 my sqlconnector를 다운받아 Build path하거나 java 폴더경로를 찾아 붙여넣기한다.
