@@ -11,17 +11,17 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 public class DBController {
-	//Å×ÀÌºí ¸ğµ¨°´Ã¼ »ğÀÔ Á¤Àû¸â¹öÇÔ¼ö(DB»ğÀÔ±â´É) 
+	//í…Œì´ë¸” ëª¨ë¸ê°ì²´ ì‚½ì… ì •ì ë©¤ë²„í•¨ìˆ˜(DBì‚½ì…ê¸°ëŠ¥) 
 	public static int insertStudent(StudentData studentModel) {
-		int returnValue=0;  	//µ¥ÀÌÅÍº£ÀÌ½º ¸í·É¹® ¸®ÅÏ°ª
-		//µ¥ÀÌÅÍº£ÀÌ½º Á¢¼Ó¿äÃ»
+		int returnValue=0;  	//ë°ì´í„°ë² ì´ìŠ¤ ëª…ë ¹ë¬¸ ë¦¬í„´ê°’
+		//ë°ì´í„°ë² ì´ìŠ¤ ì ‘ì†ìš”ì²­
 		Connection con=DBUtility.getConnection();
 		if(con==null) {
 			System.out.println("mysql connection fail");
 			return 0;
 		}
-		//»ğÀÔ¸í·É¹® 
-		String insertQuery="insert into Studentproject.studenttbl values(?,?,?,?,?,?,?,?,?)";
+		//ì‚½ì…ëª…ë ¹ë¬¸ 
+		String insertQuery="insert into studentproject.studenttbl values(?,?,?,?,?,?,?,?,?)";
 		PreparedStatement ps=null;
 		try {
 			ps=(PreparedStatement) con.prepareStatement(insertQuery);
@@ -51,21 +51,21 @@ public class DBController {
 			}
 		}
 
-		//°á°ú°ª ¸®ÅÏ
+		//ê²°ê³¼ê°’ ë¦¬í„´
 		return returnValue;		
 	}
-	//Å×ÀÌºí ¸ğµ¨°´Ã¼ Ãâ·Â Á¤Àû¸â¹öÇÔ¼ö(DB»ğÀÔ±â´É) 
+	//í…Œì´ë¸” ëª¨ë¸ê°ì²´ ì¶œë ¥ ì •ì ë©¤ë²„í•¨ìˆ˜(DBì‚½ì…ê¸°ëŠ¥) 
 	public static List<StudentData> printstudent() {
-		//Å×ÀÌºí¿¡ÀÖ´Â ·¹ÄÚµå ¼ÂÀ» °¡Á®¿À±â À§ÇÑ ArrayList<PhoneBookModel>
+		//í…Œì´ë¸”ì—ìˆëŠ” ë ˆì½”ë“œ ì…‹ì„ ê°€ì ¸ì˜¤ê¸° ìœ„í•œ ArrayList<PhoneBookModel>
 		List<StudentData> list=new ArrayList<StudentData>();
-		//µ¥ÀÌÅÍº£ÀÌ½º Á¢¼Ó¿äÃ»
+		//ë°ì´í„°ë² ì´ìŠ¤ ì ‘ì†ìš”ì²­
 		Connection con=DBUtility.getConnection();
 		if(con==null) {
 			System.out.println("mysql connection fail");
 			return null;
 		}
-		//DB¸í·É¹®
-		String selectQuery="select*from Studentproject.studenttbl";
+		//DBëª…ë ¹ë¬¸
+		String selectQuery="select*from studentproject.studenttbl";
 		PreparedStatement ps=null;
 		ResultSet resultSet=null;
 		try {
@@ -82,8 +82,8 @@ public class DBController {
 				Double avr=resultSet.getDouble(8);
 				String grade=resultSet.getString(9);
 				
-				StudentData studentData =new StudentData(name, id, hp, kor, eng, math,total,avr,grade);
-				list.add(studentData);
+				StudentData studentModel=new StudentData(name, id, hp, kor, eng, math,total,avr,grade);
+				list.add(studentModel);
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -101,28 +101,24 @@ public class DBController {
 		}
 		return list;
 	}
-	//Å×ÀÌºí ¸ğµ¨°´Ã¼ °Ë»ö Á¤Àû¸â¹öÇÔ¼ö(ÀÌ¸§) 
+	//í…Œì´ë¸” ëª¨ë¸ê°ì²´ ê²€ìƒ‰ ì •ì ë©¤ë²„í•¨ìˆ˜(ì´ë¦„) 
 	public static List<StudentData> searchstudent(String searchData, int number){
-		final int S_NAME=1,S_ID = 2,S_EXIT=3;
-		//·¹ÄÚµå ¼ÂÀ» ÀúÀåÀ» List Collection
+		final int S_NAME=1, S_EXIT=2;
+		//ë ˆì½”ë“œ ì…‹ì„ ì €ì¥ì„ List Collection
 		List<StudentData> list=new ArrayList<StudentData>();
-		//µ¥ÀÌÅÍº£ÀÌ½º Á¢¼Ó¿äÃ»
+		//ë°ì´í„°ë² ì´ìŠ¤ ì ‘ì†ìš”ì²­
 		Connection con=DBUtility.getConnection();
 		if(con==null) {
 			System.out.println("mysql connection fail");
 			return null;
 		}
-		//DB¸í·É¹®
+		//DBëª…ë ¹ë¬¸
 		String searchQuary=null;
 		PreparedStatement ps=null;
 		ResultSet resultSet=null;
 		switch(number) {
 		case S_NAME:
-			searchQuary="select*from Studentproject.studenttbl where name like ?";
-			
-			break;
-		case S_ID :
-			searchQuary="select*from Studentproject.studenttbl where id like ?";
+			searchQuary="select*from studentproject.studenttbl where name like ?";
 			break;
 		}		
 		try {
@@ -134,15 +130,15 @@ public class DBController {
 				String name=resultSet.getString(1);
 				String id=resultSet.getString(2);
 				String hp=resultSet.getString(3);
-				int kor= resultSet.getInt(4);
+				int kor=resultSet.getInt(4);
 				int eng=resultSet.getInt(5);
 				int math=resultSet.getInt(6);
 				int total=resultSet.getInt(7);
 				Double avr=resultSet.getDouble(8);
 				String grade=resultSet.getString(9);
 				
-				StudentData studentData =new StudentData(name, id, hp, kor, math, eng, total, avr, grade);
-				list.add(studentData);			
+				StudentData studentModel=new StudentData(name, id, hp, kor, math, eng, total, avr, grade);
+				list.add(studentModel);			
 			}
 			
 		} catch (SQLException e) {
@@ -162,10 +158,10 @@ public class DBController {
 		return list;
 		
 	}
-	//Å×ÀÌºí ¸ğµ¨°´Ã¼ »èÁ¦ Á¤Àû¸â¹öÇÔ¼ö(DB»ğÀÔ±â´É) 
+	//í…Œì´ë¸” ëª¨ë¸ê°ì²´ ì‚­ì œ ì •ì ë©¤ë²„í•¨ìˆ˜(DBì‚½ì…ê¸°ëŠ¥) 
 	public static int deletestudent(String deleteData, int number) {
 		final int S_NAME=1;
-		//DBÁ¢¼Ó¿äÃ»
+		//DBì ‘ì†ìš”ì²­
 		Connection con=DBUtility.getConnection();
 		if(con==null) {
 			System.out.println("mysql connection fail");
@@ -174,10 +170,10 @@ public class DBController {
 		String deleteQuery=null;
 		PreparedStatement ps=null;
 		int resultNumber=0;
-		//DB¸í·É¹®
+		//DBëª…ë ¹ë¬¸
 		switch(number) {
 		case S_NAME:
-			deleteQuery="delete from Studentproject.studenttbl where name like ?";
+			deleteQuery="delete from studentproject.studenttbl where name like ?";
 			break;
 		}	
 		try {
@@ -203,7 +199,7 @@ public class DBController {
 		return resultNumber;
 	}
 
-	//Å×ÀÌºí ¸ğµ¨°´Ã¼ ¼öÁ¤ Á¤Àû¸â¹öÇÔ¼ö(DB»ğÀÔ±â´É) 
+	//í…Œì´ë¸” ëª¨ë¸ê°ì²´ ìˆ˜ì • ì •ì ë©¤ë²„í•¨ìˆ˜(DBì‚½ì…ê¸°ëŠ¥) 
 	public static int updatestudent(StudentData studentModel) {
 		Connection con=DBUtility.getConnection();
 		if(con==null) {
@@ -214,7 +210,7 @@ public class DBController {
 		PreparedStatement ps=null;
 		int resultNumber=0;
 		
-		updateQuery="update Studentproject.studenttbl set kor=?,eng=?,math=?,total=?,avr=?,grade=? where hp=?";
+		updateQuery="update studentproject.studenttbl set kor=?,eng=?,math=?,total=?,avr=?,grade=? where hp=?";
 			
 		try {
 			ps=(PreparedStatement) con.prepareStatement(updateQuery);	
@@ -246,22 +242,22 @@ public class DBController {
 
 	public static List<StudentData> sortstudent(int no) {
 		final int ASC=1, DESC=2;
-		//Å×ÀÌºí¿¡ÀÖ´Â ·¹ÄÚµå ¼ÂÀ» °¡Á®¿À±â À§ÇÑ ArrayList<PhoneBookModel>
+		//í…Œì´ë¸”ì—ìˆëŠ” ë ˆì½”ë“œ ì…‹ì„ ê°€ì ¸ì˜¤ê¸° ìœ„í•œ ArrayList<PhoneBookModel>
 		List<StudentData> list=new ArrayList<StudentData>();
 		String sortQuery=null;
-		//µ¥ÀÌÅÍº£ÀÌ½º Á¢¼Ó¿äÃ»
+		//ë°ì´í„°ë² ì´ìŠ¤ ì ‘ì†ìš”ì²­
 		Connection con=DBUtility.getConnection();
 		if(con==null) {
 			System.out.println("mysql connection fail");
 			return null;
 		}	
-		//DB¸í·É¹®
+		//DBëª…ë ¹ë¬¸
 		switch(no) {
 		case ASC:
-			sortQuery="select*from Studentproject.studenttbl order by avr asc";
+			sortQuery="select*from studentproject.studenttbl order by avr asc";
 			break;
 		case DESC:
-			sortQuery="select*from Studentproject.studenttbl order by avr desc";
+			sortQuery="select*from studentproject.studenttbl order by avr desc";
 			break;
 		}
 		PreparedStatement ps=null;
@@ -281,8 +277,8 @@ public class DBController {
 				Double avr=resultSet.getDouble(8);
 				String grade=resultSet.getString(9);
 				
-				StudentData studentData  =new StudentData(name, id, hp, kor, eng, math, total, avr, grade);
-				list.add(studentData);
+				StudentData studentModel=new StudentData(name, id, hp, kor, eng, math,total,avr,grade);
+				list.add(studentModel);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
