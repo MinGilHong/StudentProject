@@ -124,7 +124,7 @@ public class StudentMain {
 				
 			}
 			while(true) {
-				System.out.print("["+data_buffer.getMath()+"] 수정 할 영어점수입력 >> ");
+				System.out.print("["+data_buffer.getMath()+"] 수정 할 수학점수입력 >> ");
 				math=scan.nextInt();
 				
 				 if (math<=100) {
