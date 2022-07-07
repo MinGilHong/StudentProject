@@ -143,9 +143,9 @@ public class StudentMain {
 			
 			resultNumber=DBController.updatestudent(data_buffer);
 			if(resultNumber!=0) {
-				System.out.println(name+"번호 수정완료");
+				System.out.println(name+" 학생 수정완료");
 			}else {
-				System.out.println(name+"번호 수정실패");		
+				System.out.println(name+" 학생 수정실패");		
 			}
 			return;	
 	}
